@@ -124,6 +124,31 @@ npm run dev:client
 
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
+### Run with Docker Compose
+
+Docker Compose runs the production-built React site behind Nginx, the Node API, and a MongoDB container with a persistent data volume.
+
+1. Install Docker Desktop and make sure it is running.
+2. Create a root `.env` from the safe example:
+   ```bash
+   cp .env.docker.example .env
+   ```
+3. Add your API/payment/email keys to `.env` as needed. The local MongoDB URI is already set in the example. To use MongoDB Atlas instead, replace `MONGODB_URI` with the Atlas connection string and URL-encode any reserved characters in its username/password.
+4. Start the services from the project root:
+   ```bash
+   npm run docker:up
+   ```
+5. Open [http://localhost:8080](http://localhost:8080). API requests are routed internally through Nginx, and MongoDB data persists in the `voxigen-mongodb` Docker volume.
+
+Useful commands:
+
+```bash
+npm run docker:logs
+npm run docker:down
+```
+
+The API and database ports are not published directly to the host. For a public production deployment, put the site behind HTTPS and provide production credentials through the deployment platform’s secret manager. Do not commit `.env` or put server secrets in the client environment.
+
 ---
 
 ## 📡 API Endpoints
